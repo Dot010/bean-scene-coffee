@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { cn } from '@/lib/util';
+import { cn } from '@/lib/utils';
 
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
@@ -21,7 +21,7 @@ export function Button({
     const variants = {
         primary: "bg-coffee-amber text-coffee-brown hover:bg-coffee-amber/90",
         secondary: "bg-coffee-brown text-coffee-cream hover:bg-coffee-brown/90",
-        ghost: "text-coffee-cream hover:underline px-0 py-0 font-sans font-semibold"
+        ghost: "text-coffee-cream hover:underline px-0 py-0"
     }
     
     const combinedClasses = cn(baseStyles, variants[variant], className)
