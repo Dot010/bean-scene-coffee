@@ -2,10 +2,11 @@
 
 @theme {
   --color-coffee-dark: #2F1F17;
-  --color-coffee-brown: #603813;
+  --color-coffee-brown: #603809;
   --color-coffee-amber: #F9C06A;
   --color-coffee-cream: #FFFBF7;
   --color-coffee-sand: #F6EBDA;
+  --color-coffee-gray:#707070
 
   --font-serif: var(--font-playfair), Georgia, serif;
   --font-sans: var(--font-jakarta), system-ui, sans-serif;

@@ -21,7 +21,7 @@ export function Text({
     kicker: 'text-coffee-amber font-semibold tracking-wide',
     
 
-    subtle: 'text-coffee-sand/80 font-normal',
+    subtle: 'text-coffee-gray/80 font-normal',
   };
 
   const sizes = {
