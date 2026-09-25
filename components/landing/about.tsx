@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import cofeeblast from "../../public/images/coffeeblast.png"
+import cofeeblast from '../../public/images/coffeeblast.png';
 import { Text } from '../ui/text';
 import { Heading } from '../ui/heading';
 import { Button } from '../ui/buttons';
@@ -8,11 +8,9 @@ import { Container } from '../ui/container';
 
 const about = () => {
   return (
-    <section className= "relative bg-coffee-sand/10 w-full py-20 md:py-28">
-     <Container className="relative z-10">
+    <section className="bg-coffee-sand/10 relative w-full py-20 md:py-28">
+      <Container className="relative z-10">
         <div className="grid grid-cols-1 items-center lg:grid-cols-2 lg:gap-16">
-          
-   
           <div className="flex flex-col items-start space-y-6">
             <Heading as="h2" className="text-coffee-brown font-semibold">
               Discover the best coffee
@@ -40,18 +38,16 @@ const about = () => {
               className="h-auto w-full max-w-md object-contain"
             />
           </div>
-
         </div>
-          </Container>
-          <div className='absolute -bottom-16 -left-8 z-20 w-44 md:w-72 pointer-events-none'>
-              <Image
-                  src={cofeeblast}
-                  alt=''
-                  aria-hidden="true"
-              className='h-auto w-full object-contain'    
-              />
-          </div>
-
+      </Container>
+      <div className="pointer-events-none absolute -bottom-16 -left-8 z-20 w-44 md:w-72">
+        <Image
+          src={cofeeblast}
+          alt=""    
+          aria-hidden="true"
+          className="h-auto w-full object-contain"
+        />
+      </div>
     </section>
   );
 };
