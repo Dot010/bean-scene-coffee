@@ -8,13 +8,13 @@ import HeroBackground from '../../public/images/hero.png';
 import Coffee from '../../public/images/Coffee.png'
 const Hero = () => {
   return (
-    <section className="min-h-[85vh] w-full items-center overflow-hidden">
+    <section className="relative min-h-screen w-full items-center overflow-hidden">
       <Image
         src={HeroBackground}
         alt="Bean Scene Background"
         fill
         priority
-        className="object-scenter object-cover"
+        className="object-center object-cover"
       />
 
       {/* Overlay */}
