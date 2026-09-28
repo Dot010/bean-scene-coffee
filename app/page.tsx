@@ -4,6 +4,7 @@ import Navbar from '@/components/landing/navbar'
 import Menu from '@/components/landing/menu'
 import WhyUs from '@/components/landing/whyus'
 import BannerCTA from '@/components/landing/banner-cta'
+import Testimonials from '@/components/landing/testimonials'
 
 
 const Home = () => {
@@ -14,7 +15,8 @@ const Home = () => {
       <About />
       <Menu />
       <WhyUs />
-      <BannerCTA/>
+      <BannerCTA />
+      <Testimonials/>
     </main>
   )
 }
