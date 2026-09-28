@@ -29,7 +29,10 @@ export default function RootLayout({
       lang="en"
       className={`${playfair.variable} ${jakarta.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col font-sans text-coffee-dark">
+      <body className={`${jakarta.className} flex min-h-full flex-col font-sans text-coffee-dark`}>
+        <span aria-hidden="true" className={`${playfair.className} sr-only`}>
+          Bean Scene
+        </span>
         {children}
       </body>
     </html>

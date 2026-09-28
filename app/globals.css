@@ -6,7 +6,7 @@
   --color-coffee-amber: #F9C06A;
   --color-coffee-cream: #FFFBF7;
   --color-coffee-sand: #F6EBDA;
-  --color-coffee-gray:#707070
+  --color-coffee-gray: #707070;
 
   --font-serif: var(--font-playfair), Georgia, serif;
   --font-sans: var(--font-jakarta), system-ui, sans-serif;
@@ -17,6 +17,15 @@ html {
 }
 
 body {
+  font-family: var(--font-jakarta), system-ui, sans-serif;
   background-color: var(--color-coffee-cream);
   color: var(--color-coffee-dark);
+}
+
+.font-serif {
+  font-family: var(--font-playfair), Georgia, serif;
+}
+
+.font-sans {
+  font-family: var(--font-jakarta), system-ui, sans-serif;
 }

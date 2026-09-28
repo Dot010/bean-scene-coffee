@@ -30,6 +30,13 @@ const REVIEWS = [
     text: 'The Cappuccino is smooth and perfectly balanced. Bean Scene became my default place to work and meet friends. The atmosphere and attention to detail in every roast make it a truly unique coffee experience.',
     avatarInitials: 'SO',
   },
+  {
+    id: 3,
+    name: 'Carlos Mendez',
+    role: 'Software Engineer',
+    text: 'Absolute perfection! The rich aroma and exceptional quality of their beans give me the exact energy boost I need every single morning before coding.',
+    avatarInitials: 'CM',
+  },
 ];
 
 export default function Testimonials() {
@@ -37,7 +44,9 @@ export default function Testimonials() {
   const contentRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  // Animação de entrada inicial — Roda APENAS UMA VEZ no Scroll
+  const touchStartX = useRef<number>(0);
+  const touchEndX = useRef<number>(0);
+
   useGSAP(
     () => {
       const tl = gsap.timeline({
@@ -48,14 +57,12 @@ export default function Testimonials() {
         },
       });
 
-      // Entrada do cabeçalho
       tl.fromTo(
         '.testimonial-header',
         { y: 30, opacity: 0 },
         { y: 0, opacity: 1, duration: 0.8, ease: 'power3.out' }
       );
 
-      // Entrada do card principal
       tl.fromTo(
         '.testimonial-card',
         { scale: 0.95, opacity: 0 },
@@ -73,34 +80,65 @@ export default function Testimonials() {
         '-=0.4'
       );
 
-      // Entrada dos salpicos de café (executada apenas 1 vez)
       gsap.fromTo(
         '.splash-left',
         { x: -80, opacity: 0 },
-          {
-              x: 0, opacity: 1, duration: 1.2, ease: 'power2.out', delay: 0.3,
-              onComplete: () => {
-                gsap.set('.splash-left', { clearProps: 'all'})
-            }
-         }
+        {
+          x: 0,
+          opacity: 1,
+          duration: 1.2,
+          ease: 'power2.out',
+          delay: 0.3,
+          onComplete: () => {
+            gsap.set('.splash-left', { clearProps: 'all' });
+          },
+        }
       );
 
       gsap.fromTo(
         '.splash-right',
         { x: 80, opacity: 0 },
-          {
-              x: 0, opacity: 1, duration: 1.2, ease: 'power2.out', delay: 0.3,
-              onComplete: () => {
-                gsap.set('.splash-right', {clearProps: 'all' })
-            }
-          }
+        {
+          x: 0,
+          opacity: 1,
+          duration: 1.2,
+          ease: 'power2.out',
+          delay: 0.3,
+          onComplete: () => {
+            gsap.set('.splash-right', { clearProps: 'all' });
+          },
+        }
       );
-    },
 
+      const handleMouseMove = (e: MouseEvent) => {
+        const { clientX, clientY } = e;
+        const xNorm = clientX / window.innerWidth - 0.5;
+        const yNorm = clientY / window.innerHeight - 0.5;
+
+        gsap.to('.splash-left', {
+          x: xNorm * 25,
+          y: yNorm * 20,
+          duration: 0.5,
+          ease: 'power2.out',
+        });
+
+        gsap.to('.splash-right', {
+          x: -xNorm * 25,
+          y: -yNorm * 20,
+          duration: 0.5,
+          ease: 'power2.out',
+        });
+      };
+
+      window.addEventListener('mousemove', handleMouseMove);
+
+      return () => {
+        window.removeEventListener('mousemove', handleMouseMove);
+      };
+    },
     { scope: containerRef, dependencies: [] }
   );
 
-  // Animação apenas no CONTEÚDO ao trocar de testemunho
   const handleSlideChange = (newIndex: number) => {
     if (!contentRef.current) return;
 
@@ -129,15 +167,34 @@ export default function Testimonials() {
     handleSlideChange(prevIndex);
   };
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const diff = touchStartX.current - touchEndX.current;
+    const threshold = 50;
+
+    if (diff > threshold) {
+      handleNext();
+    } else if (diff < -threshold) {
+      handlePrev();
+    }
+  };
+
   const currentReview = REVIEWS[currentIndex];
 
   return (
     <section
+      id="testimonials"
       ref={containerRef}
       className="relative w-full overflow-hidden bg-white py-16 md:py-24"
     >
       <Container className="relative z-10 flex flex-col items-center text-center">
-        {/* Cabeçalho */}
         <div className="testimonial-header flex flex-col items-center space-y-2">
           <Heading
             as="h2"
@@ -146,14 +203,12 @@ export default function Testimonials() {
             Our coffee perfection feedback
           </Heading>
           <Text variant="subtle" className="mt-2 max-w-xl text-gray-500">
-            Our customers has amazing things to say about us
+            Our customers have amazing things to say about us
           </Text>
         </div>
 
-        {/* ÁREA DO CARD E BOTÕES DE NAVEGAÇÃO */}
         <div className="relative mt-12 w-full max-w-3xl">
-          {/* Salpico de Café - Canto Inferior Esquerdo */}
-          <div className="splash-left pointer-events-none select-none absolute  -left-20 z-20 w-48 md:-left-80 md:w-64">
+          <div className="splash-left pointer-events-none select-none absolute -left-20 z-20 w-48 md:-left-80 md:w-64">
             <Image
               src={coffeeSplashDown}
               alt=""
@@ -162,7 +217,6 @@ export default function Testimonials() {
             />
           </div>
 
-          {/* Salpico de Café - Canto Superior Direito */}
           <div className="splash-right pointer-events-none select-none absolute -top-10 -right-20 z-20 w-48 md:-right-80 md:w-64">
             <Image
               src={coffeeSplashRight}
@@ -172,16 +226,18 @@ export default function Testimonials() {
             />
           </div>
 
-          {/* Card Principal */}
-          <div className="testimonial-card relative z-10 rounded-xl border border-amber-200/50 bg-[#FFFBF0]/80 p-8 pt-6 shadow-sm backdrop-blur-sm md:p-12">
-            {/* Aspas decorativas */}
+          <div
+            className="testimonial-card relative z-10 rounded-xl border border-amber-200/50 bg-[#FFFBF0]/80 p-8 pt-6 shadow-sm backdrop-blur-sm md:p-12 cursor-grab active:cursor-grabbing"
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
             <div className="text-left font-serif text-6xl leading-none font-bold text-[#3e2723] opacity-80">
               “
             </div>
 
-            {/* Conteúdo Dinâmico do Testemunho */}
             <div ref={contentRef} className="mt-2 flex flex-col items-center">
-              <div className="itemx-center flex min-h-30 justify-center md:min-h-25">
+              <div className="flex min-h-30 items-center justify-center md:min-h-25">
                 <Text className="max-w-2xl text-center text-sm leading-relaxed text-gray-600 md:text-base">
                   {currentReview.text}
                 </Text>
@@ -198,15 +254,28 @@ export default function Testimonials() {
                   {currentReview.role}
                 </Text>
 
-                {/* Avatar Centralizado */}
                 <div className="mt-4 flex h-14 w-14 items-center justify-center overflow-hidden rounded-xl bg-amber-900 text-base font-bold text-amber-100 shadow-md">
                   {currentReview.avatarInitials}
                 </div>
               </div>
             </div>
+
+            <div className="mt-6 flex justify-center gap-2">
+              {REVIEWS.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleSlideChange(idx)}
+                  aria-label={`Go to slide ${idx + 1}`}
+                  className={`h-2.5 rounded-full transition-all duration-300 ${
+                    currentIndex === idx
+                      ? 'w-8 bg-amber-800'
+                      : 'w-2.5 bg-amber-900/20 hover:bg-amber-900/40'
+                  }`}
+                />
+              ))}
+            </div>
           </div>
 
-          {/* Botão Anterior (Esquerda) */}
           <button
             onClick={handlePrev}
             aria-label="Previous testimonial"
@@ -215,7 +284,6 @@ export default function Testimonials() {
             &#8592;
           </button>
 
-          {/* Botão Próximo (Direita) */}
           <button
             onClick={handleNext}
             aria-label="Next testimonial"
