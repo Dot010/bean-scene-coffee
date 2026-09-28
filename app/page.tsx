@@ -6,6 +6,8 @@ import WhyUs from '@/components/landing/whyus'
 import BannerCTA from '@/components/landing/banner-cta'
 import Testimonials from '@/components/landing/testimonials'
 
+import Subscribe from '@/components/landing/subscribe'
+
 
 const Home = () => {
   return (
@@ -16,7 +18,8 @@ const Home = () => {
       <Menu />
       <WhyUs />
       <BannerCTA />
-      <Testimonials/>
+      <Testimonials />
+      <Subscribe/>
     </main>
   )
 }
