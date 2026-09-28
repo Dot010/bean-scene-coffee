@@ -7,6 +7,7 @@ import BannerCTA from '@/components/landing/banner-cta'
 import Testimonials from '@/components/landing/testimonials'
 
 import Subscribe from '@/components/landing/subscribe'
+import Footer from '@/components/landing/footer'
 
 
 const Home = () => {
@@ -19,7 +20,8 @@ const Home = () => {
       <WhyUs />
       <BannerCTA />
       <Testimonials />
-      <Subscribe/>
+      <Subscribe />
+      <Footer />
     </main>
   )
 }
