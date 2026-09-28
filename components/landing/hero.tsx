@@ -72,7 +72,6 @@ const Hero = () => {
           duration: 0.7,
           ease: 'back.out(1.8)',
           onComplete: () => {
-            // Limpa propriedades inline do GSAP para permitir interatividade/hover do Tailwind sem interferências
             gsap.set('.hero-subtitle, .hero-title-img, .hero-text, .hero-btn', {
               clearProps: 'transform,opacity',
             });
@@ -97,17 +96,22 @@ const Hero = () => {
   );
 
   return (
-    <section className="min-h-[100vh] w-full items-center overflow-hidden">
-      <Image
-        src={HeroBackground}
-        alt="Bean Scene Background"
-        fill
-        priority
-        className="object-scenter object-cover"
-      />
-
-      {/* Overlay */}
-      <div className="absolute inset-0 z-0 bg-linear-to-r from-black/60 via-black/30 to-black/10" />
+    <section
+      ref={containerRef}
+      className="relative flex min-h-screen w-full items-center overflow-hidden"
+    >
+      {/* Wrapper da Imagem de Fundo (Necessário para a animação .hero-bg e Parallax) */}
+      <div className="hero-bg absolute inset-0 z-0 h-full w-full">
+        <Image
+          src={HeroBackground}
+          alt="Bean Scene Background"
+          fill
+          priority
+          className="object-cover object-center"
+        />
+        {/* Overlay escuro para garantir legibilidade dos textos */}
+        <div className="absolute inset-0 bg-linear-to-r from-black/70 via-black/40 to-black/10" />
+      </div>
 
       <Container className="relative z-10 w-full pt-40 pb-16">
         <div className="max-w-2xl">
